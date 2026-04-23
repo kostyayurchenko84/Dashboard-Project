@@ -23,30 +23,60 @@
                      - навигация (Проекты/Сотрудники)
                      - Seed Data кнопка
                 -->
+          <div class="nav-tabs">
+            <button class="nav-tab active" data-tab="projects">Projects</button>
+            <button class="nav-tab" data-tab="employees">Employees</button>
+          </div>
         </div>
       </aside>
       <button class="menu-button">☰ Control panel</button>
       <main class="main">
-        <h1>Projects</h1>
-        <table class="projects-table">
-          <thead>
-            <tr>
-              <th>Company Name</th>
-              <th>Project Name</th>
-              <th>Budget</th>
-              <th>Employee Capacity</th>
-              <th>Employees</th>
-              <th>Estimated Income</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td colspan="7">Нет данных</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="table-container" id="projects-table-container">
+          <h1>Projects</h1>
+          <table class="projects-table">
+            <thead>
+              <tr>
+                <th>Company Name</th>
+                <th>Project Name</th>
+                <th>Budget</th>
+                <th>Employee Capacity</th>
+                <th>Employees</th>
+                <th>Estimated Income</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="7">Нет данных</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-container hidden" id="employees-table-container">
+          <h1>Employees</h1>
+          <table class="employees-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Age</th>
+                <th>Position</th>
+                <th>Salary</th>
+                <th>Estimated Payment</th>
+                <th>Project</th>
+                <th>Projected Income</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="9">Нет данных</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </main>
     </div>
+    <script src="./script.js"></script>
   </body>
 </html>

@@ -70,7 +70,7 @@ a {
 }
 
 .sidebar-content {
-  padding: 0 16px 24px 16px;
+  padding: 0 10px;
   flex: 1;
 }
 
@@ -102,6 +102,39 @@ a {
   display: block;
 }
 
+.nav-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.nav-tab {
+  width: 100%;
+  padding: 20px 16px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  color: #cbd5e1;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: none;
+  cursor: pointer;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
+.nav-tab.active {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-left: 8px solid #3b82f6;
+}
+
+.nav-tab:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
 .main {
   overflow-y: auto;
   flex: 1;
@@ -109,14 +142,18 @@ a {
   background-color: #f5f7fa;
 }
 
-.main h1 {
+.table-container.hidden {
+  display: none;
+}
+
+.table-container h1 {
   margin: 24px;
   font-size: 1.8rem;
   font-weight: 600;
   color: #1a2a3a;
 }
 
-.projects-table {
+.table-container table {
   width: 100%;
   border-collapse: collapse;
   background: #fff;
@@ -125,7 +162,7 @@ a {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
 }
 
-.projects-table th {
+.table-container th {
   padding: 16px 10px;
   font-weight: 600;
   font-size: 1rem;
@@ -135,18 +172,19 @@ a {
   border-bottom: 2px solid #cbd5e1;
 }
 
-.projects-table td {
+.table-container td {
   padding: 10px 10px;
   font-size: 0.9rem;
   color: #2d3748;
   border-bottom: 1px solid #e2e8f0;
 }
 
-.projects-table tbody tr:hover td {
+.table-container tbody tr:hover td {
   background-color: #f8fafc;
 }
 
-.projects-table td[colspan='7'] {
+.table-container td[colspan='7'],
+.table-container td[colspan='9'] {
   padding: 48px 16px;
   color: #a0aec0;
   text-align: center;
