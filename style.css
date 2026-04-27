@@ -275,7 +275,8 @@ a {
   color: #ef4444;
 }
 
-#project-form {
+#project-form,
+#employee-form {
   padding: 24px;
 }
 
