@@ -122,3 +122,203 @@ function initTabs() {
     })
   })
 }
+
+// ---------- Переключение месяцы года ----------
+
+function initPeriodSelectors() {
+  const monthSelect = document.getElementById('month-select')
+  const yearSelect = document.getElementById('year-select')
+
+  monthSelect.value = currentMonth.toString()
+  yearSelect.value = currentYear.toString()
+
+  monthSelect.addEventListener('change', (e) => {
+    const newMonth = parseInt(e.target.value)
+    if (newMonth !== currentMonth) {
+      setCurrentPeriod(currentYear, newMonth)
+    }
+  })
+
+  yearSelect.addEventListener('change', (e) => {
+    const newYear = parseInt(e.target.value)
+    if (newYear !== currentYear) {
+      setCurrentPeriod(newYear, currentMonth)
+    }
+  })
+}
+
+// ---------- Сортировка таблиц ----------
+
+let projectsSortField = 'companyName'
+let projectsSortDirection = 'asc'
+
+let employeesSortField = 'name'
+let employeesSortDirection = 'asc'
+
+function sortProjects() {
+  const sortField = projectsSortField
+  const direction = projectsSortDirection
+
+  projectsData.sort((a, b) => {
+    let valueA, valueB
+    switch (sortField) {
+      case 'companyName':
+        valueA = a.companyName || ''
+        valueB = b.companyName || ''
+        break
+      case 'projectName':
+        valueA = a.projectName || ''
+        valueB = b.projectName || ''
+        break
+      case 'budget':
+        valueA = a.budget || 0
+        valueB = b.budget || 0
+        break
+      case 'employeeCapacity':
+        valueA = a.employeeCapacity || 0
+        valueB = b.employeeCapacity || 0
+        break
+      case 'estimatedIncome':
+        valueA = (a.budget || 0) * 0.15
+        valueB = (b.budget || 0) * 0.15
+        break
+      default:
+        return 0
+    }
+
+    if (typeof valueA === 'string') {
+      valueA = valueA.toLowerCase()
+      valueB = valueB.toLowerCase()
+    }
+
+    if (valueA < valueB) return direction === 'asc' ? -1 : 1
+    if (valueA > valueB) return direction === 'asc' ? 1 : -1
+    return 0
+  })
+
+  fillProjectsTable()
+  updateSortIcons('projects')
+}
+
+function sortEmployees() {
+  const sortField = employeesSortField
+  const direction = employeesSortDirection
+
+  function calculateAge(birthDate) {
+    const today = new Date()
+    const birth = new Date(birthDate)
+    let age = today.getFullYear() - birth.getFullYear()
+    const monthDiff = today.getMonth() - birth.getMonth()
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+      age--
+    }
+    return age
+  }
+
+  employeesData.sort((a, b) => {
+    let valueA, valueB
+
+    switch (sortField) {
+      case 'name':
+        valueA = a.name || ''
+        valueB = b.name || ''
+        break
+      case 'surname':
+        valueA = a.surname || ''
+        valueB = b.surname || ''
+        break
+      case 'age':
+        valueA = calculateAge(a.birthDate)
+        valueB = calculateAge(b.birthDate)
+        break
+      case 'position':
+        const positions = { Junior: 1, Middle: 2, Senior: 3, Lead: 4, Architect: 5, BO: 6 }
+        valueA = positions[a.position] || 0
+        valueB = positions[b.position] || 0
+        break
+      case 'salary':
+        valueA = a.salary || 0
+        valueB = b.salary || 0
+        break
+      case 'estimatedPayment':
+        valueA = (a.salary || 0) * 0.7
+        valueB = (b.salary || 0) * 0.7
+        break
+      case 'projectedIncome':
+        valueA = (a.salary || 0) * 0.3
+        valueB = (b.salary || 0) * 0.3
+        break
+      default:
+        return 0
+    }
+
+    if (typeof valueA === 'string') {
+      valueA = valueA.toLowerCase()
+      valueB = valueB.toLowerCase()
+    }
+
+    if (valueA < valueB) return direction === 'asc' ? -1 : 1
+    if (valueA > valueB) return direction === 'asc' ? 1 : -1
+    return 0
+  })
+
+  fillEmployeesTable()
+  updateSortIcons('employees')
+}
+
+function updateSortIcons(tableType) {
+  const isProjects = tableType === 'projects'
+  const sortField = isProjects ? projectsSortField : employeesSortField
+  const direction = isProjects ? projectsSortDirection : employeesSortDirection
+
+  const headers = document.querySelectorAll(
+    isProjects ? '#projects-table-container .sortable-header' : '#employees-table-container .sortable-header',
+  )
+
+  headers.forEach((header) => {
+    const icon = header.querySelector('.sort-icon')
+    if (!icon) return
+
+    const field = header.getAttribute('data-sort')
+
+    if (field === sortField) {
+      icon.textContent = direction === 'asc' ? '↑' : '↓'
+      icon.classList.add(direction === 'asc' ? 'asc' : 'desc')
+    } else {
+      icon.textContent = '⇅'
+      icon.classList.remove('asc', 'desc')
+    }
+  })
+}
+
+function handleSortClick(event) {
+  if (!event || !event.target) return
+  const header = event.target.closest('.sortable-header')
+  if (!header) return
+  const tableContainer = header.closest('.table-container')
+  const isProjects = tableContainer?.id === 'projects-table-container'
+  const field = header.getAttribute('data-sort')
+  if (!field) return
+
+  if (isProjects) {
+    if (projectsSortField === field) {
+      projectsSortDirection = projectsSortDirection === 'asc' ? 'desc' : 'asc'
+    } else {
+      projectsSortField = field
+      projectsSortDirection = 'asc'
+    }
+    sortProjects()
+  } else {
+    if (employeesSortField === field) {
+      employeesSortDirection = employeesSortDirection === 'asc' ? 'desc' : 'asc'
+    } else {
+      employeesSortField = field
+      employeesSortDirection = 'asc'
+    }
+    sortEmployees()
+  }
+}
+
+function initSorting() {
+  document.addEventListener('click', handleSortClick)
+}

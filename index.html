@@ -17,12 +17,33 @@
       <aside class="sidebar">
         <button class="sidebar-toggle-btn">▶</button>
         <div class="sidebar-content">
-          <!-- Здесь позже будут: 
-                     - выбор месяца
-                     - выбор года
-                     - навигация (Проекты/Сотрудники)
-                     - Seed Data кнопка
-                -->
+          <div class="period-selectors">
+            <div class="selector-group">
+              <label for="month-select">Month</label>
+              <select id="month-select">
+                <option value="0">January</option>
+                <option value="1">February</option>
+                <option value="2">March</option>
+                <option value="3">April</option>
+                <option value="4">May</option>
+                <option value="5">June</option>
+                <option value="6">July</option>
+                <option value="7">August</option>
+                <option value="8">September</option>
+                <option value="9">October</option>
+                <option value="10">November</option>
+                <option value="11">December</option>
+              </select>
+            </div>
+            <div class="selector-group">
+              <label for="year-select">Year</label>
+              <select id="year-select">
+                <option value="2025">2025</option>
+                <option value="2026" selected>2026</option>
+                <option value="2027">2027</option>
+              </select>
+            </div>
+          </div>
           <div class="nav-tabs">
             <button class="nav-tab active" data-tab="projects">Projects</button>
             <button class="nav-tab" data-tab="employees">Employees</button>
@@ -39,12 +60,16 @@
           <table class="projects-table">
             <thead>
               <tr>
-                <th>Company Name</th>
-                <th>Project Name</th>
-                <th>Budget</th>
-                <th>Employee Capacity</th>
+                <th class="sortable-header" data-sort="companyName">Company Name <span class="sort-icon">⇅</span></th>
+                <th class="sortable-header" data-sort="projectName">Project Name <span class="sort-icon">⇅</span></th>
+                <th class="sortable-header" data-sort="budget">Budget</th>
+                <th class="sortable-header" data-sort="employeeCapacity">
+                  Employee Capacity <span class="sort-icon">⇅</span>
+                </th>
                 <th>Employees</th>
-                <th>Estimated Income</th>
+                <th class="sortable-header" data-sort="estimatedIncome">
+                  Estimated Income <span class="sort-icon">⇅</span>
+                </th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -63,14 +88,14 @@
           <table class="employees-table">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Surname</th>
-                <th>Age</th>
-                <th>Position</th>
-                <th>Salary</th>
-                <th>Estimated Payment</th>
+                <th class="sortable-header" data-sort="name">Name <span class="sort-icon">⇅</span></th>
+                <th class="sortable-header" data-sort="name">Surname <span class="sort-icon">⇅</span></th>
+                <th class="sortable-header" data-sort="name">Age <span class="sort-icon">⇅</span></th>
+                <th class="sortable-header" data-sort="name">Position <span class="sort-icon">⇅</span></th>
+                <th class="sortable-header" data-sort="name">Salary <span class="sort-icon">⇅</span></th>
+                <th class="sortable-header" data-sort="name">Estimated Payment <span class="sort-icon">⇅</span></th>
                 <th>Project</th>
-                <th>Projected Income</th>
+                <th class="sortable-header" data-sort="name">Projected Income <span class="sort-icon">⇅</span></th>
                 <th>Actions</th>
               </tr>
             </thead>

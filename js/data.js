@@ -3,16 +3,42 @@ const employeesData = []
 
 // ---------- Localstorage ----------
 const STORAGE_KEY = 'monthlyData'
-const CURRENT_MONTH = '2026-4'
+//const CURRENT_MONTH = '2026-4'
+
+// ---------- Переключение периода ----------
+let currentYear = 2026
+let currentMonth = 4
+
+function getCurrentPeriodKey() {
+  return `${currentYear}-${currentMonth}`
+}
+
+function setCurrentPeriod(year, month) {
+  currentYear = year
+  currentMonth = month
+  loadAllData()
+}
+
+function loadAllData() {
+  loadProjects()
+  loadEmployees()
+  fillProjectsTable()
+  fillEmployeesTable()
+}
 
 function loadProjects() {
   const saved = localStorage.getItem(STORAGE_KEY)
   if (saved) {
     const data = JSON.parse(saved)
-    if (data[CURRENT_MONTH] && data[CURRENT_MONTH].projects) {
+    const periodKey = getCurrentPeriodKey()
+    if (data[periodKey] && data[periodKey].projects) {
       projectsData.length = 0
-      projectsData.push(...data[CURRENT_MONTH].projects)
+      projectsData.push(...data[periodKey].projects)
+    } else {
+      projectsData.length = 0
     }
+  } else {
+    projectsData.length = 0
   }
   fillProjectsTable()
 }
@@ -20,12 +46,12 @@ function loadProjects() {
 function saveProjects() {
   let saved = localStorage.getItem(STORAGE_KEY)
   let data = saved ? JSON.parse(saved) : {}
+  const periodKey = getCurrentPeriodKey()
 
-  if (!data[CURRENT_MONTH]) {
-    data[CURRENT_MONTH] = { projects: [], employees: [] }
+  if (!data[periodKey]) {
+    data[periodKey] = { projects: [], employees: [] }
   }
-
-  data[CURRENT_MONTH].projects = [...projectsData]
+  data[periodKey].projects = [...projectsData]
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
 }
 
@@ -33,10 +59,15 @@ function loadEmployees() {
   const saved = localStorage.getItem(STORAGE_KEY)
   if (saved) {
     const data = JSON.parse(saved)
-    if (data[CURRENT_MONTH] && data[CURRENT_MONTH].employees) {
+    const periodKey = getCurrentPeriodKey()
+    if (data[periodKey] && data[periodKey].employees) {
       employeesData.length = 0
-      employeesData.push(...data[CURRENT_MONTH].employees)
+      employeesData.push(...data[periodKey].employees)
+    } else {
+      employeesData.length = 0
     }
+  } else {
+    employeesData.length = 0
   }
   fillEmployeesTable()
 }
@@ -44,12 +75,12 @@ function loadEmployees() {
 function saveEmployees() {
   let saved = localStorage.getItem(STORAGE_KEY)
   let data = saved ? JSON.parse(saved) : {}
+  const periodKey = getCurrentPeriodKey()
 
-  if (!data[CURRENT_MONTH]) {
-    data[CURRENT_MONTH] = { projects: [], employees: [] }
+  if (!data[periodKey]) {
+    data[periodKey] = { projects: [], employees: [] }
   }
-
-  data[CURRENT_MONTH].employees = [...employeesData]
+  data[periodKey].employees = [...employeesData]
   localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
 }
 
@@ -70,7 +101,9 @@ function deleteProject(projectId) {
 function initDeleteProject() {
   document.addEventListener('click', (e) => {
     const deleteBtn = e.target.closest('.delete-project-btn')
+    if (!deleteBtn) return
     const projectId = deleteBtn.getAttribute('data-project-id')
+    if (!projectId) return
 
     const project = projectsData.find((project) => project.id === projectId)
     const projectName = project ? project.projectName : 'проект'
@@ -98,7 +131,9 @@ function deleteEmployee(employeeId) {
 function initDeleteEmployee() {
   document.addEventListener('click', (e) => {
     const deleteBtn = e.target.closest('.delete-employee-btn')
+    if (!deleteBtn) return
     const employeeId = deleteBtn.getAttribute('data-employee-id')
+    if (!employeeId) return
 
     const employee = employeesData.find((employee) => employee.id === employeeId)
     const employeeName = employee ? `${employee.name} ${employee.surname}` : 'сотрудника'

@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   initSidebar()
   initTabs()
+  initPeriodSelectors()
+  initSorting()
 
   loadProjects()
   loadEmployees()
