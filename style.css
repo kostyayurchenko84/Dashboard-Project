@@ -265,6 +265,37 @@ a {
   text-align: center;
 }
 
+
+/* ---------- Делаем сортировку ----------*/
+.sortable-header {
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.5s;
+}
+
+.sortable-header:hover {
+  background-color: #cbd5e1;
+}
+
+.sort-icon {
+  display: inline-block;
+  margin-left: 8px;
+  font-size: 0.7rem;
+  opacity: 0.5;
+}
+
+.sort-icon.asc {
+  opacity: 1;
+  color: #3b82f6;
+}
+
+.sort-icon.desc {
+  opacity: 1;
+  color: #3b82f6;
+  transform: rotate(180deg);
+  display: inline-block;
+}
+
 /*---------- Модальное окно +Add Project --------*/
 .modal-overlay {
   position: fixed;

@@ -181,7 +181,6 @@ function initProjectModal() {
   capacityInput.addEventListener('input', (e) => validateField('capacity', e.target.value))
   capacityInput.addEventListener('blur', (e) => validateField('capacity', e.target.value))
 
-  // Отправка формы
   form.addEventListener('submit', (e) => {
     e.preventDefault()
     const projectName = document.getElementById('projectName').value
